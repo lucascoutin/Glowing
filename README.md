@@ -10,6 +10,4 @@ Obs: Falloff color has better output with temperature slider.
 
 ![alt text](https://klearrender.files.wordpress.com/2022/02/red_blue.jpg)
 
-![alt text](https://klearrender.files.wordpress.com/2022/02/sunset_glow.jpg)
-
 ![alt text](https://klearrender.files.wordpress.com/2022/02/interface_v03.jpg)

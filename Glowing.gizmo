@@ -1,33 +1,27 @@
-#! C:/Program Files/Nuke13.1v1/nuke-13.1.1.dll -nx
-version 13.1 v1
+#! C:/Program Files/Nuke14.0v5/nuke-14.0.5.dll -nx
+version 14.0 v5
 Gizmo {
  tile_color 0xff
- addUserKnob {20 User l Glowing}
- addUserKnob {4 math l Math M {"Inverse Exponential" "Inverse Square Law" "Inverse Square"}}
- addUserKnob {4 science l Science M {Linear Rec709 sRGB}}
- addUserKnob {41 size l Size T Control.size}
- addUserKnob {41 power l Power T Control.intensity}
- addUserKnob {41 conversion l "HDR Compression" T SoftClip1.conversion}
- addUserKnob {41 disable_1 l "Generate Glow Only" T Merge1.disable}
- addUserKnob {41 disable_2 l "Keep Bounding Box" T Reformat1.disable}
- addUserKnob {26 ""}
- addUserKnob {41 white l "Inner Color" T Grade2.white}
- addUserKnob {41 white_1 l "Outer Color" T Grade3.white}
- addUserKnob {41 blend l "Blend Inner/Outer" T Control.blend}
- addUserKnob {26 ""}
- addUserKnob {26 text1 l "Falloff and Tint" T ""}
- addUserKnob {26 text6 l Obs: T "Use <b>Intensity</b> slider for control"}
- addUserKnob {26 text5 l " " T "Increase <b>Size</b> for a larger falloff"}
- addUserKnob {41 value l "" +STARTLINE T Multiply16.value}
- addUserKnob {41 value_panelDropped l "panel dropped state" +INVISIBLE T Multiply16.value_panelDropped}
- addUserKnob {26 ""}
- addUserKnob {4 matte l Matte M {"Input Alpha" Luminance}}
- addUserKnob {41 minimum l "Clip Black" T Alpha_Control.minimum}
- addUserKnob {41 maximum l "Clip White" T Alpha_Control.maximum}
+ addUserKnob {20 User}
+ addUserKnob {68 math l Math M {"Inverse Exponential" "Inverse Square Law" "Inverse Square"}}
+ addUserKnob {68 hdr l "HDR Compression" M {Log Color}}
+ addUserKnob {41 pre_blur l "Pre Edge Blur" T EdgeBlur1.size}
+ addUserKnob {6 glow l "Generate Glow Only" +STARTLINE}
+ glow true
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {7 size_master l Size R 0 100}
+ size_master 10
+ addUserKnob {7 strenght l Strenght R 0 10}
+ strenght 1
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 color l Colorize T Gamma1.color}
+ addUserKnob {26 colorize_text l "" +STARTLINE T "\nUse temperature and tint sliders for optimal results."}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {68 alpha l Matte M {"Input Alpha" Luminance}}
  addUserKnob {20 info l Info}
- addUserKnob {26 text2 l "" +STARTLINE T "Created by <b><a href=\"https://vimeo.com/lucascoutinho\">Lucas L. Coutinho</a></b>"}
- addUserKnob {26 text3 l "" +STARTLINE T "Version: <b>v02</b>"}
- addUserKnob {26 text4 l "" +STARTLINE T "Year: 2022"}
+ addUserKnob {26 text_1 l "" +STARTLINE T "Created by <b><a href=\"https://vimeo.com/lucascoutinho\">Lucas L. Coutinho</a></b>"}
+ addUserKnob {26 text_2 l "" +STARTLINE T "Version: <b>v03</b>"}
+ addUserKnob {26 text_3 l "" +STARTLINE T "Year: 2023"}
 }
  StickyNote {
   inputs 0
@@ -35,8 +29,8 @@ Gizmo {
   tile_color 0xff
   label "Inverse Exponential"
   note_font_size 60
-  xpos -916
-  ypos -473
+  xpos 836
+  ypos 61
  }
  StickyNote {
   inputs 0
@@ -44,8 +38,8 @@ Gizmo {
   tile_color 0xff
   label "Inverse Square Law"
   note_font_size 60
-  xpos -272
-  ypos -486
+  xpos 1480
+  ypos 48
  }
  StickyNote {
   inputs 0
@@ -53,905 +47,467 @@ Gizmo {
   tile_color 0xff
   label "Inverse Square"
   note_font_size 60
-  xpos 353
-  ypos -492
- }
- StickyNote {
-  inputs 0
-  name StickyNote1
-  tile_color 0xff
-  label "Science Out"
-  note_font_size 60
-  xpos -2096
-  ypos -1208
- }
- StickyNote {
-  inputs 0
-  name StickyNote5
-  tile_color 0xff
-  label "Science In"
-  note_font_size 60
-  xpos -705
-  ypos 665
- }
- StickyNote {
-  inputs 0
-  name StickyNote6
-  tile_color 0xff
-  label "Super Values"
-  note_font_size 60
-  xpos 122
-  ypos 1140
- }
- StickyNote {
-  inputs 0
-  name StickyNote7
-  tile_color 0xff
-  label "Inner Mask"
-  note_font_size 60
-  xpos -495
-  ypos 1738
- }
- StickyNote {
-  inputs 0
-  name StickyNote8
-  tile_color 0xff
-  label "Inner/Outter Color"
-  note_font_size 60
-  xpos 308
-  ypos 2045
- }
- StickyNote {
-  inputs 0
-  name StickyNote9
-  tile_color 0xff
-  label "Outter Mask"
-  note_font_size 60
-  xpos 1337
-  ypos 1835
+  xpos 2105
+  ypos 42
  }
  Input {
   inputs 0
   name Source
-  xpos 1508
-  ypos -1427
+  xpos 2951
+  ypos -994
  }
- Dot {
-  name Dot31
-  xpos 1542
-  ypos -1293
+ EdgeBlur {
+  size 0
+  name EdgeBlur1
+  xpos 2951
+  ypos -847
  }
-set N1ea4b800 [stack 0]
- Dot {
-  name Dot50
-  xpos 1787
-  ypos -1293
- }
- Dot {
-  name Dot49
-  xpos 1787
-  ypos 2809
- }
-push $N1ea4b800
- Dot {
-  name Dot1
-  xpos -886
-  ypos -1293
- }
-set N1ea4ac00 [stack 0]
  Dot {
   name Dot2
-  xpos -1065
-  ypos -1293
+  xpos 2985
+  ypos -669
  }
-set N1ea4a800 [stack 0]
+set N9d409c00 [stack 0]
+push $N9d409c00
+ Dot {
+  name Dot1
+  xpos 866
+  ypos -669
+ }
+set N9d57f000 [stack 0]
  Dot {
   name Dot3
-  xpos -1215
-  ypos -1293
- }
-set N1ea4a400 [stack 0]
- Dot {
-  name Dot5
-  xpos -1372
-  ypos -1293
- }
-set N1ea4a000 [stack 0]
- Dot {
-  name Dot6
-  xpos -1551
-  ypos -1293
- }
-set N1ea49c00 [stack 0]
- Dot {
-  name Dot7
-  xpos -1701
-  ypos -1293
- }
- Colorspace {
-  colorspace_out sRGB
-  name Colorspace3
-  label "\[value colorspace_out]"
-  xpos -1735
-  ypos -1172
- }
- Dot {
-  name Dot8
-  xpos -1701
-  ypos -1027
- }
-push $N1ea49c00
- Colorspace {
-  colorspace_out rec709
-  name Colorspace4
-  label "\[value colorspace_out]"
-  xpos -1585
-  ypos -1169
- }
-push $N1ea4a000
- Switch {
-  inputs 3
-  which {{science}}
-  name Switch2
-  xpos -1406
-  ypos -1030
+  xpos 607
+  ypos -669
  }
  Expression {
   expr3 "r*0.21250 + g*0.71540 + b*0.07210"
   name Expression1
   tile_color 0x1fff00ff
   label "Luminance Alpha"
-  xpos -1406
-  ypos -956
- }
- Grade {
-  channels alpha
-  blackpoint {{parent.Alpha_Control.minimum}}
-  whitepoint {{parent.Alpha_Control.maximum}}
-  name Grade1
-  xpos -1406
-  ypos -861
- }
- set C703bfc00 [stack 0]
- Premult {
-  name Premult2
-  xpos -1406
-  ypos -809
- }
- Dot {
-  name Dot9
-  xpos -1372
-  ypos -685
- }
-set N703bf400 [stack 0]
-push $N1ea4a400
- Colorspace {
-  colorspace_out sRGB
-  name Colorspace2
-  label "\[value colorspace_out]"
-  xpos -1249
-  ypos -1172
- }
- Dot {
-  name Dot4
-  xpos -1215
-  ypos -1027
- }
-push $N1ea4a800
- Colorspace {
-  colorspace_out rec709
-  name Colorspace1
-  label "\[value colorspace_out]"
-  xpos -1099
-  ypos -1169
- }
-push $N1ea4ac00
- Switch {
-  inputs 3
-  which {{science}}
-  name Switch1
-  xpos -920
-  ypos -1030
- }
-clone $C703bfc00 {
-  xpos -920
-  ypos -861
-  selected false
+  xpos 573
+  ypos -532
  }
  Premult {
   name Premult1
-  xpos -920
-  ypos -809
+  xpos 573
+  ypos -480
+ }
+ Dot {
+  name Dot5
+  xpos 607
+  ypos -350
+ }
+push $N9d57f000
+ Premult {
+  name Premult2
+  selected true
+  xpos 832
+  ypos -479
  }
  Switch {
   inputs 2
-  which {{matte}}
-  name Switch3
-  xpos -920
-  ypos -688
+  which {{alpha}}
+  name Switch1
+  xpos 832
+  ypos -353
  }
  Dot {
   name Dot10
-  xpos -886
-  ypos -329
+  xpos 866
+  ypos 205
  }
-set N703bd400 [stack 0]
+set N93dd7c00 [stack 0]
  Dot {
   name Dot11
-  xpos -776
-  ypos -329
+  xpos 976
+  ypos 205
  }
-set N703bd000 [stack 0]
+set N962c3400 [stack 0]
  Dot {
   name Dot12
-  xpos -666
-  ypos -329
+  xpos 1086
+  ypos 205
  }
-set N703bcc00 [stack 0]
+set N95975000 [stack 0]
  Dot {
   name Dot13
-  xpos -556
-  ypos -329
+  xpos 1196
+  ypos 205
  }
-set N703bc800 [stack 0]
+set N96fbb800 [stack 0]
  Dot {
   name Dot14
-  xpos -454
-  ypos -329
+  xpos 1298
+  ypos 205
  }
-set N703bc400 [stack 0]
+set N9788e800 [stack 0]
  Dot {
   name Dot15
-  xpos -245
-  ypos -329
+  xpos 1507
+  ypos 205
  }
-set N7036fc00 [stack 0]
+set N9cdfb400 [stack 0]
  Dot {
   name Dot16
-  xpos -135
-  ypos -329
+  xpos 1617
+  ypos 205
  }
-set N7036f800 [stack 0]
+set N9cd41000 [stack 0]
  Dot {
   name Dot17
-  xpos -25
-  ypos -329
+  xpos 1727
+  ypos 205
  }
-set N7036f400 [stack 0]
+set N9d57fc00 [stack 0]
  Dot {
   name Dot18
-  xpos 85
-  ypos -329
+  xpos 1837
+  ypos 205
  }
-set N7036f000 [stack 0]
+set N9cc56400 [stack 0]
  Dot {
   name Dot19
-  xpos 187
-  ypos -329
+  xpos 1939
+  ypos 205
  }
-set N7036ec00 [stack 0]
+set N9d5f5c00 [stack 0]
  Dot {
   name Dot20
-  xpos 373
-  ypos -329
+  xpos 2125
+  ypos 205
  }
-set N7036e800 [stack 0]
+set N9d306800 [stack 0]
  Dot {
   name Dot21
-  xpos 483
-  ypos -329
+  xpos 2235
+  ypos 205
  }
-set N7036e400 [stack 0]
+set N93dd6400 [stack 0]
  Blur {
   size {{parent.Blur12.size*2}}
   name Blur11
-  xpos 449
-  ypos -270
+  xpos 2201
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply12.value/2}}
   name Multiply11
-  xpos 449
-  ypos -195
+  xpos 2201
+  ypos 339
  }
-push $N7036e800
+push $N9d306800
  Blur {
-  size {{parent.Control.size}}
+  size {{size_master}}
   name Blur12
-  xpos 339
-  ypos -270
+  xpos 2091
+  ypos 264
  }
  Multiply {
-  value {{parent.Control.intensity}}
+  value {{strenght}}
   name Multiply12
-  xpos 339
-  ypos -195
+  xpos 2091
+  ypos 339
  }
-push $N7036e400
+push $N93dd6400
  Dot {
   name Dot22
-  xpos 593
-  ypos -329
+  xpos 2345
+  ypos 205
  }
-set N7036d000 [stack 0]
+set N94020800 [stack 0]
  Blur {
   size {{parent.Blur11.size*2}}
   name Blur13
-  xpos 559
-  ypos -270
+  xpos 2311
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply11.value/2}}
   name Multiply13
-  xpos 559
-  ypos -195
+  xpos 2311
+  ypos 339
  }
 push 0
-push $N7036d000
+push $N94020800
  Dot {
   name Dot23
-  xpos 703
-  ypos -329
+  xpos 2455
+  ypos 205
  }
-set N7036c400 [stack 0]
+set N9d531800 [stack 0]
  Blur {
   size {{parent.Blur13.size*2}}
   name Blur14
-  xpos 669
-  ypos -270
+  xpos 2421
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply13.value/2}}
   name Multiply14
-  xpos 669
-  ypos -195
+  xpos 2421
+  ypos 339
  }
-push $N7036c400
+push $N9d531800
  Dot {
   name Dot24
-  xpos 805
-  ypos -329
+  xpos 2557
+  ypos 205
  }
  Blur {
   size {{parent.Blur14.size*2}}
   name Blur15
-  xpos 771
-  ypos -270
+  xpos 2523
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply14.value/2}}
   name Multiply15
-  xpos 771
-  ypos -195
+  xpos 2523
+  ypos 339
  }
  Merge2 {
   inputs 5+1
   operation plus
   name Plus2
-  xpos 559
-  ypos 8
+  xpos 2311
+  ypos 542
  }
  Dot {
   name Dot26
-  xpos 593
-  ypos 248
+  xpos 2345
+  ypos 782
  }
-push $N7036f800
+push $N9cd41000
  Blur {
   size {{parent.Blur7.size*2}}
   name Blur6
-  xpos -169
-  ypos -270
+  xpos 1583
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply7.value/pow(2,2)}}
   name Multiply6
-  xpos -169
-  ypos -195
+  xpos 1583
+  ypos 339
  }
-push $N7036fc00
+push $N9cdfb400
  Blur {
-  size {{parent.Control.size}}
+  size {{size_master}}
   name Blur7
-  xpos -279
-  ypos -270
+  xpos 1473
+  ypos 264
  }
  Multiply {
-  value {{parent.Control.intensity}}
+  value {{strenght}}
   name Multiply7
-  xpos -279
-  ypos -195
+  xpos 1473
+  ypos 339
  }
-push $N7036f400
+push $N9d57fc00
  Blur {
   size {{parent.Blur6.size*2}}
   name Blur8
-  xpos -59
-  ypos -270
+  xpos 1693
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply7.value/pow(3,2)}}
   name Multiply8
-  xpos -59
-  ypos -195
+  xpos 1693
+  ypos 339
  }
 push 0
-push $N7036f000
+push $N9cc56400
  Blur {
   size {{parent.Blur8.size*2}}
   name Blur9
-  xpos 51
-  ypos -270
+  xpos 1803
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply7.value/pow(4,2)}}
   name Multiply9
-  xpos 51
-  ypos -195
+  xpos 1803
+  ypos 339
  }
-push $N7036ec00
+push $N9d5f5c00
  Blur {
   size {{parent.Blur9.size*2}}
   name Blur10
-  xpos 153
-  ypos -270
+  xpos 1905
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply7.value/pow(5,2)}}
   name Multiply10
-  xpos 153
-  ypos -195
+  xpos 1905
+  ypos 339
  }
  Merge2 {
   inputs 5+1
   operation plus
   name Plus1
-  xpos -59
-  ypos 8
+  xpos 1693
+  ypos 542
  }
-push $N703bd000
+push $N962c3400
  Blur {
   size {{parent.Blur1.size*2}}
   name Blur2
-  xpos -810
-  ypos -270
+  xpos 942
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply1.value/pow(2,2)}}
   name Multiply2
-  xpos -810
-  ypos -195
+  xpos 942
+  ypos 339
  }
-push $N703bd400
+push $N93dd7c00
  Blur {
-  size {{parent.Control.size}}
+  size {{size_master}}
   name Blur1
-  xpos -920
-  ypos -270
+  xpos 832
+  ypos 264
  }
  Multiply {
-  value {{parent.Control.intensity}}
+  value {{strenght}}
   name Multiply1
-  xpos -920
-  ypos -195
+  xpos 832
+  ypos 339
  }
-push $N703bcc00
+push $N95975000
  Blur {
   size {{parent.Blur2.size*2}}
   name Blur3
-  xpos -700
-  ypos -270
+  xpos 1052
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply1.value/pow(2,3)}}
   name Multiply3
-  xpos -700
-  ypos -195
+  xpos 1052
+  ypos 339
  }
 push 0
-push $N703bc800
+push $N96fbb800
  Blur {
   size {{parent.Blur3.size*2}}
   name Blur4
-  xpos -590
-  ypos -270
+  xpos 1162
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply1.value/pow(2,4)}}
   name Multiply4
-  xpos -590
-  ypos -195
+  xpos 1162
+  ypos 339
  }
-push $N703bc400
+push $N9788e800
  Blur {
   size {{parent.Blur4.size*2}}
   name Blur5
-  xpos -488
-  ypos -270
+  xpos 1264
+  ypos 264
  }
  Multiply {
   value {{parent.Multiply1.value/pow(2,5)}}
   name Multiply5
-  xpos -488
-  ypos -195
+  xpos 1264
+  ypos 339
  }
  Merge2 {
   inputs 5+1
   operation plus
   name Plus
-  xpos -700
-  ypos 8
+  xpos 1052
+  ypos 542
  }
  Dot {
   name Dot25
-  xpos -666
-  ypos 248
+  xpos 1086
+  ypos 782
  }
  Switch {
   inputs 3
   which {{math}}
   name Switch4
-  xpos -59
-  ypos 245
+  xpos 1693
+  ypos 779
  }
  Gamma {
-  value {{"clamp(parent.Multiply16.value, 0.3, 10)" x1 2} {"clamp(parent.Multiply16.value, 0.3, 10)"} {"clamp(parent.Multiply16.value, 0.3, 10)"} {"clamp(parent.Multiply16.value, 0.3, 10)"}}
+  value {{color.r} {color.g} {color.b} 1}
   name Gamma1
   tile_color 0xffbf00ff
   label Falloff
-  xpos -59
-  ypos 338
+  xpos 1693
+  ypos 872
+  addUserKnob {20 User}
+  addUserKnob {18 color l Colorize}
+  color {1.000000358 1.000000358 1.000000358}
+  addUserKnob {6 color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
- AdjBBox {
-  numpixels {{parent.Blur5.size}}
-  name AdjBBox1
-  xpos -59
-  ypos 475
- }
- Dot {
-  name Dot27
-  xpos -25
-  ypos 565
- }
-set N70247000 [stack 0]
- Dot {
-  name Dot28
-  xpos -204
-  ypos 565
- }
-set N70246c00 [stack 0]
  Dot {
   name Dot29
-  xpos -354
-  ypos 565
+  xpos 1727
+  ypos 1103
  }
- Colorspace {
-  colorspace_out sRGB
-  name Colorspace5
-  label "\[value colorspace_out]"
-  xpos -388
-  ypos 686
- }
+set N9529c400 [stack 0]
  Dot {
   name Dot30
-  xpos -354
-  ypos 831
- }
-push $N70246c00
- Colorspace {
-  colorspace_out rec709
-  name Colorspace6
-  label "\[value colorspace_out]"
-  xpos -238
-  ypos 689
- }
-push $N70247000
- Switch {
-  inputs 3
-  which {{science}}
-  name Switch5
-  xpos -59
-  ypos 828
- }
- Dot {
-  name Dot32
-  xpos -25
-  ypos 977
- }
-set N70245400 [stack 0]
- Dot {
-  name Dot33
-  xpos 803
-  ypos 977
- }
- Dot {
-  name Dot34
-  xpos 803
-  ypos 1108
- }
-set N70244c00 [stack 0]
- Dot {
-  name Dot35
-  xpos 579
-  ypos 1108
- }
- Shuffle1 {
-  red alpha
-  green alpha
-  blue alpha
-  name Shuffle1
-  xpos 545
-  ypos 1193
+  xpos 1583
+  ypos 1103
  }
  SoftClip {
-  conversion "logarithmic compress"
+  conversion "preserve hue and saturation"
   name SoftClip1
-  tile_color 0xff5f00ff
-  xpos 545
-  ypos 1233
- }
- set C701ffc00 [stack 0]
- Dot {
-  name Dot36
-  xpos 579
-  ypos 1372
- }
-push $N70244c00
-clone $C701ffc00 {
-  xpos 769
-  ypos 1235
-  selected false
- }
- Copy {
-  inputs 2
-  from0 rgba.alpha
-  to0 rgba.alpha
-  name Copy1
-  xpos 769
-  ypos 1363
+  xpos 1549
+  ypos 1189
  }
  Dot {
-  name Dot39
-  xpos 803
-  ypos 1557
+  name Dot4
+  xpos 1583
+  ypos 1266
  }
-set N701fec00 [stack 0]
- Dot {
-  name Dot42
-  xpos 1016
-  ypos 1557
- }
-set N701fe800 [stack 0]
- Dot {
-  name Dot43
-  xpos 1016
-  ypos 1956
- }
-push $N701fe800
- Dot {
-  name Dot41
-  xpos 1228
-  ypos 1557
- }
- Invert {
-  channels alpha
-  name Invert1
-  xpos 1194
-  ypos 1779
- }
- Gamma {
-  value {{parent.Control.blend}}
-  name Gamma3
-  xpos 1194
-  ypos 1831
- }
- ChannelMerge {
-  inputs 2
-  operation multiply
-  name ChannelMerge2
-  xpos 1194
-  ypos 1941
- }
- Dot {
-  name Dot44
-  xpos 1228
-  ypos 2224
- }
-push $N703bf400
- PostageStamp {
-  name PostageStamp2
-  tile_color 0xff
-  label "Luminance Alpha"
-  xpos -411
-  ypos 1413
-  hide_input true
- }
- Dot {
-  name Dot37
-  xpos -377
-  ypos 1552
- }
-push $N1ea4ac00
- PostageStamp {
-  name PostageStamp1
-  tile_color 0xff
-  label "Input Alpha"
-  xpos -250
-  ypos 1411
-  hide_input true
+push $N9529c400
+ SoftClip {
+  conversion "logarithmic compress"
+  name SoftClip2
+  xpos 1693
+  ypos 1192
  }
  Switch {
   inputs 2
-  which {{matte}}
-  name Switch6
-  xpos -250
-  ypos 1549
+  which {{hdr}}
+  name Switch3
+  xpos 1693
+  ypos 1263
  }
  Dot {
-  name Dot38
-  xpos -216
-  ypos 1690
+  name Dot6
+  xpos 1727
+  ypos 1365
  }
-push $N70245400
- Shuffle1 {
-  red alpha
-  green alpha
-  blue alpha
-  name Shuffle4
-  xpos -59
-  ypos 1195
- }
-clone $C701ffc00 {
-  xpos -59
-  ypos 1235
-  selected false
- }
- Shuffle1 {
-  alpha red
-  name Shuffle5
-  xpos -59
-  ypos 1275
- }
- ChannelMerge {
-  inputs 2
-  operation stencil
-  name ChannelMerge1
-  xpos -59
-  ypos 1675
- }
- Blur {
-  size {{parent.Control.size*3}}
-  name Blur16
-  xpos -59
-  ypos 1739
- }
- Gamma {
-  value {{1-parent.Control.blend}}
-  name Gamma2
-  xpos -59
-  ypos 1791
- }
- Dot {
-  name Dot40
-  xpos -25
-  ypos 1986
- }
-push $N701fec00
- Grade {
-  inputs 1+1
-  name Grade2
-  xpos 769
-  ypos 1983
- }
- Grade {
-  inputs 1+1
-  name Grade3
-  xpos 769
-  ypos 2221
- }
-clone $C701ffc00 {
-  xpos 769
-  ypos 2323
-  selected false
- }
- Dot {
-  name Dot46
-  xpos 803
-  ypos 2430
- }
-set N701b4c00 [stack 0]
- Dot {
-  name Dot45
-  xpos 803
-  ypos 2570
- }
-push $N1ea4b800
- Dot {
-  name Dot47
-  xpos 1542
-  ypos 2314
- }
-set N701b4400 [stack 0]
- Dot {
-  name Dot48
-  xpos 1272
-  ypos 2314
- }
- ChannelMerge {
-  inputs 2
-  name ChannelMerge3
-  xpos 1238
-  ypos 2555
- }
-push $N701b4400
-push $N701b4c00
  Merge2 {
   inputs 2
   operation plus
   name Merge1
-  xpos 1508
-  ypos 2427
-  disable true
- }
- Copy {
-  inputs 2
-  from0 rgba.alpha
-  to0 rgba.alpha
-  name Copy2
-  xpos 1508
-  ypos 2561
+  xpos 2951
+  ypos 1362
+  disable {{glow}}
  }
  Reformat {
   type scale
-  format "1920 1080 0 0 1920 1080 1 HD_1080"
   resize none
   name Reformat1
-  xpos 1508
-  ypos 2700
- }
- CopyMetaData {
-  inputs 2
-  name CopyMetaData1
-  xpos 1508
-  ypos 2806
+  xpos 2951
+  ypos 1530
+  disable {{bbox}}
  }
  Output {
   name Output1
-  xpos 1508
-  ypos 2926
- }
- Clamp {
-  inputs 0
-  name Alpha_Control
-  tile_color 0xff
-  xpos -1576
-  ypos -861
-  hide_input true
- }
- NoOp {
-  inputs 0
-  name Control
-  tile_color 0xff
-  xpos -163
-  ypos -892
-  hide_input true
-  addUserKnob {20 User}
-  addUserKnob {7 size l Size R 0 50}
-  size 10
-  addUserKnob {7 intensity l Intensity R 0 10}
-  intensity 5
-  addUserKnob {7 blend l Blend R 0 0.5}
-  blend 0.25
- }
- Multiply {
-  inputs 0
-  value {1 1 1 1}
-  value_panelDropped true
-  name Multiply16
-  tile_color 0xff
-  label "Clamp Values"
-  xpos -301
-  ypos 338
-  hide_input true
+  xpos 2951
+  ypos 1739
  }
 end_group

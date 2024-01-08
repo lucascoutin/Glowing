@@ -1,30 +1,28 @@
-#! C:/Program Files/Nuke14.0v5/nuke-14.0.5.dll -nx
-version 14.0 v5
 Gizmo {
  name Glowing
  tile_color 0xff
  addUserKnob {20 Glowing}
- addUserKnob {68 math l Math t "Exponential glow math types." M {"Inverse Exponential" "Inverse Square Law" "Inverse Square" ""}}
+ addUserKnob {68 math l Math t "Exponential glow math types." M {"Inverse Square Law" "Inverse Square" "Inverse Exponential" "" ""}}
  addUserKnob {68 hdr l "HDR Compression" t "Color compression mode." M {Log Color ""}}
  addUserKnob {41 pre_blur l "Pre Edge Blur" t "Pre edge blur." T EdgeBlur1.size}
  addUserKnob {6 glow l "Generate Glow Only" t "Glow only effect." +STARTLINE}
  glow true
  addUserKnob {26 ""}
  addUserKnob {7 size_master l Size t "Control glow size." R 0 100}
- size_master 73.5
- addUserKnob {7 strenght l Strenght t "Control glow intensity." R 0 10}
- strenght 1
+ size_master 30
+ addUserKnob {7 strength l Strength t "Control glow intensity." R 0 10}
+ strength 2
  addUserKnob {26 ""}
  addUserKnob {41 color l Colorize t "Additional tint." T Gamma1.color}
- addUserKnob {26 colorize_text l "" +STARTLINE T "\tUse temperature and tint sliders for optimal results."}
+ addUserKnob {41 saturation l Saturation T Saturation1.saturation}
  addUserKnob {26 ""}
  addUserKnob {68 alpha l Matte t "Mask glowing effect using alpha." M {"Input Alpha" Luminance ""}}
  addUserKnob {20 info l Info}
  addUserKnob {26 description l "" +STARTLINE T "Exponential glow with different math options.\nGlowing requires an alpha input."}
  addUserKnob {26 ""}
  addUserKnob {26 text_1 l "" +STARTLINE T "Created by <b><a href=\"https://vimeo.com/lucascoutinho\">Lucas L. Coutinho</a></b>"}
- addUserKnob {26 text_2 l "" +STARTLINE T "Version: <b>v04</b>"}
- addUserKnob {26 text_3 l "" +STARTLINE T "Year: 2023"}
+ addUserKnob {26 text_2 l "" +STARTLINE T "Version: <b>v05</b>"}
+ addUserKnob {26 text_3 l "" +STARTLINE T "Year: 2024"}
 }
  StickyNote {
   inputs 0
@@ -70,14 +68,14 @@ Gizmo {
   xpos 2985
   ypos -669
  }
-set N7dd0e800 [stack 0]
-push $N7dd0e800
+set N78a6a800 [stack 0]
+push $N78a6a800
  Dot {
   name Dot1
   xpos 866
   ypos -669
  }
-set N7dd0ec00 [stack 0]
+set N78a6ac00 [stack 0]
  Dot {
   name Dot3
   xpos 607
@@ -101,7 +99,7 @@ set N7dd0ec00 [stack 0]
   xpos 607
   ypos -350
  }
-push $N7dd0ec00
+push $N78a6ac00
  Premult {
   name Premult2
   xpos 832
@@ -119,73 +117,151 @@ push $N7dd0ec00
   xpos 866
   ypos 205
  }
-set N86222800 [stack 0]
+set N78a9e800 [stack 0]
  Dot {
   name Dot11
   xpos 976
   ypos 205
  }
-set N86222c00 [stack 0]
+set N78a9ec00 [stack 0]
+ Blur {
+  size {{parent.Blur1.size*2}}
+  name Blur2
+  xpos 942
+  ypos 264
+ }
+ Multiply {
+  value {{parent.Multiply1.value/pow(2,2)}}
+  name Multiply2
+  xpos 942
+  ypos 339
+ }
+push $N78a9e800
+ Blur {
+  size {{size_master}}
+  name Blur1
+  xpos 832
+  ypos 264
+ }
+ Multiply {
+  value {{strength}}
+  name Multiply1
+  xpos 832
+  ypos 339
+ }
+push $N78a9ec00
  Dot {
   name Dot12
   xpos 1086
   ypos 205
  }
-set N86223000 [stack 0]
+set N78a9f000 [stack 0]
+ Blur {
+  size {{parent.Blur2.size*2}}
+  name Blur3
+  xpos 1052
+  ypos 264
+ }
+ Multiply {
+  value {{parent.Multiply1.value/pow(2,3)}}
+  name Multiply3
+  xpos 1052
+  ypos 339
+ }
+push 0
+push $N78a9f000
  Dot {
   name Dot13
   xpos 1196
   ypos 205
  }
-set N86223400 [stack 0]
+set N78a9f400 [stack 0]
+ Blur {
+  size {{parent.Blur3.size*2}}
+  name Blur4
+  xpos 1162
+  ypos 264
+ }
+ Multiply {
+  value {{parent.Multiply1.value/pow(2,4)}}
+  name Multiply4
+  xpos 1162
+  ypos 339
+ }
+push $N78a9f400
  Dot {
   name Dot14
   xpos 1298
   ypos 205
  }
-set N86223800 [stack 0]
+set N78a9f800 [stack 0]
+ Blur {
+  size {{parent.Blur4.size*2}}
+  name Blur5
+  xpos 1264
+  ypos 264
+ }
+ Multiply {
+  value {{parent.Multiply1.value/pow(2,5)}}
+  name Multiply5
+  xpos 1264
+  ypos 339
+ }
+ Merge2 {
+  inputs 5+1
+  operation plus
+  name Plus
+  xpos 1052
+  ypos 542
+ }
+ Dot {
+  name Dot25
+  xpos 1086
+  ypos 782
+ }
+push $N78a9f800
  Dot {
   name Dot15
   xpos 1507
   ypos 205
  }
-set N86223c00 [stack 0]
+set N78a9fc00 [stack 0]
  Dot {
   name Dot16
   xpos 1617
   ypos 205
  }
-set N8624e000 [stack 0]
+set N78aba000 [stack 0]
  Dot {
   name Dot17
   xpos 1727
   ypos 205
  }
-set N8624e400 [stack 0]
+set N78aba400 [stack 0]
  Dot {
   name Dot18
   xpos 1837
   ypos 205
  }
-set N8624e800 [stack 0]
+set N78aba800 [stack 0]
  Dot {
   name Dot19
   xpos 1939
   ypos 205
  }
-set N8624ec00 [stack 0]
+set N78abac00 [stack 0]
  Dot {
   name Dot20
   xpos 2125
   ypos 205
  }
-set N8624f000 [stack 0]
+set N78abb000 [stack 0]
  Dot {
   name Dot21
   xpos 2235
   ypos 205
  }
-set N8624f400 [stack 0]
+set N78abb400 [stack 0]
  Blur {
   size {{parent.Blur12.size*2}}
   name Blur11
@@ -198,7 +274,7 @@ set N8624f400 [stack 0]
   xpos 2201
   ypos 339
  }
-push $N8624f000
+push $N78abb000
  Blur {
   size {{size_master}}
   name Blur12
@@ -206,18 +282,19 @@ push $N8624f000
   ypos 264
  }
  Multiply {
-  value {{strenght}}
+  value {{strength}}
   name Multiply12
+  selected true
   xpos 2091
   ypos 339
  }
-push $N8624f400
+push $N78abb400
  Dot {
   name Dot22
   xpos 2345
   ypos 205
  }
-set N860b2800 [stack 0]
+set N78ade800 [stack 0]
  Blur {
   size {{parent.Blur11.size*2}}
   name Blur13
@@ -231,13 +308,13 @@ set N860b2800 [stack 0]
   ypos 339
  }
 push 0
-push $N860b2800
+push $N78ade800
  Dot {
   name Dot23
   xpos 2455
   ypos 205
  }
-set N860b3400 [stack 0]
+set N78adf400 [stack 0]
  Blur {
   size {{parent.Blur13.size*2}}
   name Blur14
@@ -250,7 +327,7 @@ set N860b3400 [stack 0]
   xpos 2421
   ypos 339
  }
-push $N860b3400
+push $N78adf400
  Dot {
   name Dot24
   xpos 2557
@@ -280,7 +357,7 @@ push $N860b3400
   xpos 2345
   ypos 782
  }
-push $N8624e000
+push $N78aba000
  Blur {
   size {{parent.Blur7.size*2}}
   name Blur6
@@ -293,7 +370,7 @@ push $N8624e000
   xpos 1583
   ypos 339
  }
-push $N86223c00
+push $N78a9fc00
  Blur {
   size {{size_master}}
   name Blur7
@@ -301,12 +378,12 @@ push $N86223c00
   ypos 264
  }
  Multiply {
-  value {{strenght}}
+  value {{strength}}
   name Multiply7
   xpos 1473
   ypos 339
  }
-push $N8624e400
+push $N78aba400
  Blur {
   size {{parent.Blur6.size*2}}
   name Blur8
@@ -320,7 +397,7 @@ push $N8624e400
   ypos 339
  }
 push 0
-push $N8624e800
+push $N78aba800
  Blur {
   size {{parent.Blur8.size*2}}
   name Blur9
@@ -333,7 +410,7 @@ push $N8624e800
   xpos 1803
   ypos 339
  }
-push $N8624ec00
+push $N78abac00
  Blur {
   size {{parent.Blur9.size*2}}
   name Blur10
@@ -353,84 +430,6 @@ push $N8624ec00
   xpos 1693
   ypos 542
  }
-push $N86222c00
- Blur {
-  size {{parent.Blur1.size*2}}
-  name Blur2
-  xpos 942
-  ypos 264
- }
- Multiply {
-  value {{parent.Multiply1.value/pow(2,2)}}
-  name Multiply2
-  xpos 942
-  ypos 339
- }
-push $N86222800
- Blur {
-  size {{size_master}}
-  name Blur1
-  xpos 832
-  ypos 264
- }
- Multiply {
-  value {{strenght}}
-  name Multiply1
-  xpos 832
-  ypos 339
- }
-push $N86223000
- Blur {
-  size {{parent.Blur2.size*2}}
-  name Blur3
-  xpos 1052
-  ypos 264
- }
- Multiply {
-  value {{parent.Multiply1.value/pow(2,3)}}
-  name Multiply3
-  xpos 1052
-  ypos 339
- }
-push 0
-push $N86223400
- Blur {
-  size {{parent.Blur3.size*2}}
-  name Blur4
-  xpos 1162
-  ypos 264
- }
- Multiply {
-  value {{parent.Multiply1.value/pow(2,4)}}
-  name Multiply4
-  xpos 1162
-  ypos 339
- }
-push $N86223800
- Blur {
-  size {{parent.Blur4.size*2}}
-  name Blur5
-  xpos 1264
-  ypos 264
- }
- Multiply {
-  value {{parent.Multiply1.value/pow(2,5)}}
-  name Multiply5
-  xpos 1264
-  ypos 339
- }
- Merge2 {
-  inputs 5+1
-  operation plus
-  name Plus
-  xpos 1052
-  ypos 542
- }
- Dot {
-  name Dot25
-  xpos 1086
-  ypos 782
- }
  Switch {
   inputs 3
   which {{math}}
@@ -447,15 +446,20 @@ push $N86223800
   ypos 872
   addUserKnob {20 User}
   addUserKnob {18 color l Colorize}
-  color {1.000000358 1.000000358 1.000000358}
+  color {1 1 1.000000358}
   addUserKnob {6 color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ Saturation {
+  name Saturation1
+  xpos 1693
+  ypos 936
  }
  Dot {
   name Dot29
   xpos 1727
   ypos 1103
  }
-set N7da2b800 [stack 0]
+set N78cdd800 [stack 0]
  Dot {
   name Dot30
   xpos 1583
@@ -472,7 +476,7 @@ set N7da2b800 [stack 0]
   xpos 1583
   ypos 1266
  }
-push $N7da2b800
+push $N78cdd800
  SoftClip {
   conversion "logarithmic compress"
   name SoftClip2
@@ -495,7 +499,6 @@ push $N7da2b800
   inputs 2
   operation plus
   name Merge1
-  selected true
   xpos 2951
   ypos 1362
   disable {{glow}}

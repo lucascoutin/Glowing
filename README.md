@@ -8,6 +8,6 @@ Math options are:
 
 Obs: Falloff color has better output with temperature slider.
 
-![alt text](https://klearrender.files.wordpress.com/2022/02/red_blue.jpg)
+![alt text](https://klearrender.files.wordpress.com/2022/02/glow_red_blue.jpg)
 
 ![alt text](https://klearrender.files.wordpress.com/2024/01/interface_v05.jpg)
